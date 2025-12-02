@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>نموذج تعهد</title>
+<style>
+body {
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 40px;
+}
+.container {
+    width: 65%;
+    margin: auto;
+    padding: 40px;
+    background: white;
+}
+input[type=text]{
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    background: #e0e0e0;
+    border: 1px solid #999;
+    color: black;
+    font-size: 18px;
+}
+
+.readonly-box {
+    width: 4px;        /* العرض */
+    height: 4px;       /* الارتفاع */
+    line-height: 4px;  /* عشان الإيموجي في الوسط */
+    font-size: 8px;    /* حجم الإيموجي */
+    padding: 0;        /* بدون مسافة داخلية */
+    text-align: center;
+    background: #e0e0e0;
+    border: 1px solid #999;
+    margin-left: 5px;  /* مسافة بسيطة عن الزر */
+}
+}
+
+
+}
+button {
+    padding: 4px 8px;
+    font-size: 8px;
+    cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>حلفان القيادات</h2>
+
+    <p style="font-size:20px; line-height:1.8;">
+        اقسم بالله العظيم انا 
+        <br>
+        <input id="fullname" type="text" placeholder="اكتب اسمك الثلاثي">
+        <br>
+        انني لن اخون القيادة او اسرب معلومات واني اتحمل مسؤولية الخطأ
+        وانني لن اتوسط لأي شخص وانني سوف اسعى حول تطوير الداخلية
+        واتعهد بعدم خيانه الوزارة او خيانة القيادات وانا على ما اقوله شهيد
+    </p>
+
+    <div style="text-align:right; margin-right:20%;">
+        <label>التبصيم / </label>
+        <button onclick="document.getElementById('finger').value='🫆'">تبصيم</button>
+        <input id="finger" class="readonly-box" type="text" readonly>
+    </div>
+
+    <div style="text-align:right; margin-right:20%; margin-top:20px;">
+        <label>يوزر الدسكورد:</label>
+        <input id="discord" type="text" placeholder="@User">
+    </div>
+
+    <br><br>
+
+    <button onclick="send()">ارسال</button>
+
+    <p id="status"></p>
+</div>
+
+<script>
+function send(){
+    let name = document.getElementById('fullname').value.trim();
+    let finger = document.getElementById('finger').value.trim();
+    let discord = document.getElementById('discord').value.trim();
+
+    if(name === ""){
+        alert("اكتب اسمك الثلاثي");
+        return;
+    }
+
+    let content =
+        "الاسم: " + name + "\n" +
+        "التبصيم: " + finger + "\n" +
+        "يوزر الدسكورد: " + discord + "\n\n" +
+        "اقسم بالله العظيم انني لن اخون القيادة او اسرب معلومات واني اتحمل مسؤولية الخطأ\n" +
+        "وانني لن اتوسط لأي شخص وانني سوف اسعى حول تطوير الداخلية\n" +
+        "واتعهد بعدم خيانه الوزارة او خيانة القيادات وانا على ما اقوله شهيد.";
+
+    let file = new Blob([content], { type: "text/plain" });
+    let fileName = name + ".txt";
+
+    let form = new FormData();
+    form.append("file", file, fileName);
+
+    fetch("https://discord.com/api/webhooks/1445211438237880329/vjTWOUwoKiwGqDeKtoyGMltRlF3PnKSZeHbbwq-wMcCgpUaXa4lu9PQTPomexVmKwVLe", {
+        method: "POST",
+        body: form
+    }).then(()=>{
+        document.getElementById("status").innerHTML = "✔ تم إرسال الملف بنجاح";
+    }).catch(()=>{
+        document.getElementById("status").innerHTML = "❌ فشل الإرسال";
+    });
+}
+</script>
+
+</body>
+</html>
